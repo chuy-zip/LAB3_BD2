@@ -1,6 +1,6 @@
 from connection import get_neo_driver
 
-def create_movie(driver, name: str) -> None:
+def creat_genre(driver, name: str) -> None:
     """
     Creates or updates a Genre node and prints a success message in the end.
 
@@ -23,6 +23,6 @@ def create_movie(driver, name: str) -> None:
 
     print(f"Created/updated node with label: {label} and properties: {name}")
 
-driver = get_neo_driver()
+#driver = get_neo_driver()
 
-create_movie(driver, "Action") # Ejemplo de implementación
+#creat_genre(driver, "Action") # Ejemplo de implementación
