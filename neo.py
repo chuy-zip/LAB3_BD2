@@ -6,9 +6,33 @@ from person_creator import create_person
 
 driver = get_neo_driver()
 
-#aqui voy a poner las llamadas a las funciones para hacer los nodos del inciso 4
 
 try:
+
+    #para el ejercicio 2, dice que cada user debe tener minimo 2 relaciones de rate. 
+    # Entonces voy a poner 3 nodos de pelicula
+    create_movie(driver, {
+        "title": "The Matrix",
+        "movield": 133093,
+        "year": 1999,
+        "plot": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers."
+    })
+
+    create_movie(driver, {
+        "title": "Interstellar",
+        "movield": 816692,
+        "year": 2014,
+        "plot": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."
+    })
+
+    create_movie(driver, {
+        "title": "The Dark Knight",
+        "movield": 468569,
+        "year": 2008,
+        "plot": "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham."
+    })
+    
+    #aqui voy a poner las llamadas a las funciones para hacer los nodos del inciso 4 (falta users y creación de relaciones)
     create_person(driver,['Person','Actor','Director'], {
         "name": "John Doe", 
         "imdbid": 123456, 
