@@ -2,7 +2,7 @@ from connection import get_neo_driver
 
 def create_movie(driver, attributes: dict) -> None:
     """
-    Creates a new Movie node and prints a success message in the end.
+    Creates or updates a Movie node and prints a success message in the end.
 
     Args:
         driver (driver?): driver (?).
