@@ -41,6 +41,16 @@ def search_movie(driver, movie_title:str):
     return movies
 
 def search_relation(driver, person_name: str) -> list:
+    """
+    Function that searches the relations between a given user and all the movies.
+
+    Args:
+        driver (driver): driver
+        person_name: The person's name
+
+    Returns:
+        (list): A list containing the relations between the user and all the movies.
+    """
     records, summary, keys = driver.execute_query(
         "MATCH (p:User)-[r]->(m:Movie) WHERE n.name = $q_name RETURN r",
         q_name=person_name,
