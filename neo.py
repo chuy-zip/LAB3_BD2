@@ -1,12 +1,11 @@
 from connection import get_neo_driver
+from search import search_user, search_movie
 
 driver = get_neo_driver()
 
 try:
-    records, summary, keys = driver.execute_query(
-        "MERGE (p:Person {name: 'Call2'})",
-        database_="neo4j"
-    )
-    print("Query executed successfully")
+    search_user(driver, "Clinton Spencer")
+    search_movie(driver, "Apollo 13")
+    
 finally:
     driver.close()
