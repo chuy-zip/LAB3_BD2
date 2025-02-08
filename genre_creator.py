@@ -1,6 +1,6 @@
 from connection import get_neo_driver
 
-def creat_genre(driver, name: str) -> None:
+def create_genre(driver, name: str) -> None:
     """
     Creates or updates a Genre node and prints a success message in the end.
 
@@ -10,14 +10,14 @@ def creat_genre(driver, name: str) -> None:
     """
     label = "Genre"
 
-    query = f"MERGE (m:{label} {{name}})"
+    query = f"MERGE (m:{label} {{name:$genre_name}} )"
 
     print(label)
     print(name)
 
     records, summary, keys = driver.execute_query(
         query,
-        q_attributes=name,
+        genre_name=name,
         database="neo4j"
     )
 
@@ -25,4 +25,4 @@ def creat_genre(driver, name: str) -> None:
 
 #driver = get_neo_driver()
 
-#creat_genre(driver, "Action") # Ejemplo de implementación
+#create_genre(driver, "Action") # Ejemplo de implementación

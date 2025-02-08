@@ -1,6 +1,6 @@
 from connection import get_neo_driver
 from search import search_user, search_movie
-from genre_creator import creat_genre
+from genre_creator import create_genre
 from movie_creator import create_movie
 from person_creator import create_person
 
@@ -38,6 +38,25 @@ try:
         "url": "http://example.com/michaelbrown",
         "bio": "Award-winning director and screenwriter.",
         "poster": "http://example.com/poster/michaelbrown.jpg"})
+    
+    create_movie(driver, {
+        "title": "Inception",
+        "imdbId": 1375666,
+        "released": "2010-07-16",
+        "imdbRating": 8.8,
+        "movield": 27205,
+        "year": 2010,
+        "runtime": 148,
+        "countries": ["USA", "UK"],
+        "imdbVotes": 2200000,
+        "url": "http://www.imdb.com/title/tt1375666/",
+        "revenue": 829895144,
+        "plot": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+        "poster": "http://example.com/poster/inception.jpg",
+        "budget": 160000000,
+        "languages": ["English", "Japanese", "French"]})
+    
+    create_genre(driver, "Action")
 
 finally:
     driver.close()
