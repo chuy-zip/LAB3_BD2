@@ -7,7 +7,7 @@ def create_person(driver, labels_list: list[str], attributes: dict):
 
         labels = labels + ":" + ":".join(labels_list)
 
-    combined_attributes = ", ".join([f"{key}: $attributes.{key}" for key in attributes.keys()])
+    combined_attributes = ", ".join([f"{key}: $q_attributes.{key}" for key in attributes.keys()])
 
     query = f"MERGE (p:{labels} {{ {combined_attributes} }})"
 
@@ -16,7 +16,7 @@ def create_person(driver, labels_list: list[str], attributes: dict):
 
     records, summary, keys = driver.execute_query(
         query,
-        attributes=attributes,
+        q_attributes=attributes,
         database_="neo4j"
     )
    
