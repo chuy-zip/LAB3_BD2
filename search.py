@@ -40,9 +40,30 @@ def search_person(driver, person_name:str):
         print(f"{user._properties}")
     return users
 
+def search_genre(driver, genre_name: str):
+    records, summary, keys = driver.execute_query(
+        "MATCH (g:Genre) WHERE g.name = $q_name RETURN g",
+        q_name=genre_name,
+        database_="neo4j"
+    )
+
+    if not records:
+        print(f"No genre found with the name '{genre_name}'.")
+        return None
+
+    genres = []
+    for record in records:
+        user_node = record["g"]  
+        genres.append(user_node) 
+
+    print(f"Found {len(genres)} genre(s) with the name '{genre_name}'.")
+    for genre in genres:
+        print(f"{genre._properties}")
+    return genres
+
 def search_movie(driver, movie_title:str):
     records, summary, keys = driver.execute_query(
-        "MATCH (n:Movie) WHERE n.title = $q_title RETURN n",
+        "MATCH (n:Movie) WHERE n.name = $q_title RETURN n",
         q_title=movie_title,
         database_="neo4j"
     )
@@ -73,7 +94,7 @@ def search_relation(driver, person_name: str) -> list:
         (list): A list containing the relations between the user and all the movies.
     """
     records, summary, keys = driver.execute_query(
-        "MATCH (p:User)-[r]->(m:Movie) WHERE n.name = $q_name RETURN r",
+        "MATCH (p:Person)-[r]->(m:Movie) WHERE p.name = $q_name RETURN m",
         q_name=person_name,
         database_="neo4j"
     )
@@ -84,7 +105,7 @@ def search_relation(driver, person_name: str) -> list:
 
     relations = []
     for record in records:
-        relation_node = record["r"]  
+        relation_node = record["m"]  
         relations.append(relation_node) 
 
     print(f"Found {len(relations)} relation(s) related to the name '{person_name}'.")
@@ -92,7 +113,7 @@ def search_relation(driver, person_name: str) -> list:
         print(f"{relation}")
     return relations    
 
-def search_user_movie(driver, person_name: str, movie_title: str) -> list:
+def search_person_movie(driver, person_name: str, movie_name: str) -> list:
     """
     Function that searches the relations between a person and a movie. Both of them are given by the user.
 
@@ -106,24 +127,22 @@ def search_user_movie(driver, person_name: str, movie_title: str) -> list:
     """
 
     records, summary, keys = driver.execute_query(
-        "MATCH (p:User)-[r]->(m:Movie) WHERE p.name = $q_name AND m:title = $q_title RETURN p, r, m",
+        f"MATCH (u:Person)-[r]->(b:Movie) WHERE u.name = '{person_name}' AND b.name = '{movie_name}' RETURN r",
         q_name = person_name,
-        q_title = movie_title,
+        q_title = movie_name,
         database = "neo4j"
     )
 
     if not records:
-        print(f"No relationships found between '{person_name}' and '{movie_title}'.")
+        print(f"No relationships found between '{person_name}' and '{movie_name}'.")
         return None
     
     relations = []
     for record in records:
-        user_node = record["p"]
-        movie_node = record["m"]
         relation_node = record["r"]
-        relations.append(user_node)
         relations.append(relation_node)
-        relations.append(movie_node)
 
-    print(f"Found {len(relations)/3} relation(s) between '{person_name}' and '{movie_title}'.")
+    print(f"Found {len(relations)} relation(s):")
+    for relation in relations:
+        print(f"'{person_name}' {relation.type} '{movie_name}'")
     return relations
