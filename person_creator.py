@@ -23,6 +23,6 @@ def create_person(driver, labels_list: list[str], attributes: dict):
     print(f"Created/updated node with labels {labels_list} and properties {attributes}")
 
 
-driver = get_neo_driver()
+#driver = get_neo_driver()
 
-create_person(driver, ["aYES", "NO2"], {"name": "Bob", "department": "HR"})
+#create_person(driver, ["aYES", "NO2"], {"name": "Bob", "department": "HR"})

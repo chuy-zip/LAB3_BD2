@@ -1,6 +1,6 @@
 from connection import get_neo_driver
 
-def create_movie(driver, name: str) -> None:
+def create_genre(driver, name: str) -> None:
     """
     Creates or updates a Genre node and prints a success message in the end.
 
@@ -10,19 +10,23 @@ def create_movie(driver, name: str) -> None:
     """
     label = "Genre"
 
-    query = f"MERGE (m:{label} {{name}})"
+    query = f"MERGE (m:{label} {{name:$genre_name}} )"
 
     print(label)
     print(name)
 
-    records, summary, keys = driver.execute_query(
-        query,
-        q_attributes=name,
-        database="neo4j"
-    )
+    try:
+        records, summary, keys = driver.execute_query(
+            query,
+            genre_name=name,
+            database="neo4j"
+        )
 
-    print(f"Created/updated node with label: {label} and properties: {name}")
+        print(f"Created/updated node with label: {label} and properties: {name}")
 
-driver = get_neo_driver()
+    except:
+        print("ERROR")
 
-create_movie(driver, "Action") # Ejemplo de implementación
+#driver = get_neo_driver()
+
+#create_genre(driver, "Action") # Ejemplo de implementación

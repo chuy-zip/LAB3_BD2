@@ -6,6 +6,16 @@
 #           Hector Penedo....22217
 ######################################################
 
+from connection import get_neo_driver
+from search import search_user, search_movie, search_person, search_person_movie, search_genre, search_all, search_relation
+from genre_creator import create_genre
+from movie_creator import create_movie
+from person_creator import create_person
+from user_creator import create_user
+from relation_creator import create_relation
+
+driver = get_neo_driver()
+
 def getInfo(property):
     return input(f"Porfavor ingrese la información {str(property)}: ")
 
@@ -40,16 +50,101 @@ while(stay):
 
         if sub_op1 == "1":
             print("Crear un nodo person")
-            # Aquí iria la funcion para crear un nodo person
+            keyLoop = True
+            labels = []
+            attributes = {}
+
+            while keyLoop:
+                label = input("\nIngresa la(s) etiqueta(s) del nodo. Escribe 'Salir' para terminar: ")
+                if label.lower() != "salir":
+                    labels.append(label)
+
+                else:
+                    keyLoop = False
+
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_person(driver, labels, attributes)
+            
         elif sub_op1 == "2":
             print("Crear un nodo user")
-            # Aquí iria la funcion para crear un nodo user
+            keyLoop = True
+            label = "User"
+            attributes = {}
+
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_user(driver, attributes)
+
         elif sub_op1 == "3":
             print("Crear un nodo movie")
-            # Aquí iria la funcion para crear un nodo movie
+            keyLoop = True
+            label = "User"
+            attributes = {}
+
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ") # Utilizar 'name' en lugar de 'title'
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_movie(driver, attributes)
+
         elif sub_op1 == "4":
             print("Crear un nodo genre")
-            # Aquí iria la funcion para crear un nodo genre
+            label = "Genre"
+
+            name = input("\nIngresa el nombre del género: ")
+
+            create_genre(driver, name)
+
         else:
             print("Opción no válida.")
 
@@ -67,16 +162,116 @@ while(stay):
 
         if sub_op2 == "1":
             print("Rating (user - movie)")
-            # Aquí iria la funcion para crear la relación Rating
+            userName = input("\nIngresa el nombre del usuario: ")
+
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "User", userName, "Movie", movieName, "RATED", attributes)
+
         elif sub_op2 == "2":
             print("Directed (person - movie)")
-            # Aquí iria la funcion para crear la relación Directed
+            directorName = input("\nIngresa el nombre del director: ")
+
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "Person", directorName, "Movie", movieName, "DIRECTED", attributes)
+
         elif sub_op2 == "3":
             print("Acted in (person - movie)")
-            # Aquí iria la funcion para crear la relación Acted in
+            actorName = input("\nIngresa el nombre del actor: ")
+
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "Person", actorName, "Movie", movieName, "ACTED_IN", attributes)
+
         elif sub_op2 == "4":
             print("In genre (movie - genre)")
-            # Aquí iria la funcion para crear la relación In genre
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            genreName = input("\nIngresa el nombre del género: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "Movie", movieName, "Genre", genreName, "IN_GENRE", attributes)
+            
         else:
             print("Opción no válida.")
 
@@ -87,19 +282,45 @@ while(stay):
         print("        Seleccione la opción de búsqueda")
         print("--------------------------------------------------")
         print("   1. Encontrar un usuario")
-        print("   2. Encontrar una película")
-        print("   3. Encontrar usuarios con relaciones a película")
+        print("   2. Encontrar una persona")
+        print("   3. Encontrar una película")
+        print("   4. Encontrar un género")
+        print("   5. Encontrar personas con relaciones a película")
+        print("   6. Encontrar usuarios con relaciones a película")
         sub_op3 = input("   -> ")
 
         if sub_op3 == "1":
             print("Encontrar un usuario")
-            # Aquí iria la funcion para buscar un usuario
+            userName = input("\nIngresa el nombre del usuario que deseas encontrar: ")
+            search_user(driver, userName)
+
         elif sub_op3 == "2":
-            print("Encontrar una película")
-            # Aquí iria la funcion para buscar una película
+            print("Encontrar una persona")
+            personName = input("\nIngresa el nombre de la persona que deseas encontrar: ")
+            search_person(driver, personName)
+
         elif sub_op3 == "3":
+            print("Encontrar una película")
+            movieName = input("\nIngresa el nombre de la película que deseas encontrar: ")
+            search_movie(driver, movieName)
+
+        elif sub_op3 == "4":
+            print("Encontrar un género")
+            genreName = input("\nIngresa el nombre del género que deseas encontrar: ")
+            search_genre(driver, genreName)
+
+        elif sub_op3 == "5":
+            print("Encontrar personas con relaciones a película")
+            personName = input("\nIngresa el nombre de la persona que deseas encontrar: ")
+            movieName = input("\nIngresa el nombre de la película relacionada con la persona ingresada: ")
+            search_person_movie(driver, personName, movieName)
+
+        elif sub_op3 == "6":
             print("Encontrar usuarios con relaciones a película")
-            # Aquí iria la funcion para buscar peliculas relacionados a un usuarip
+            userName = input("\nIngresa el nombre del usuario que deseas encontrar: ")
+            movieName = input("\nIngresa el nombre de la película relacionada con el usuario ingresado: ")
+            search_person_movie(driver, userName, movieName)
+
         else:
             print("Opción no válida.")
 
@@ -109,7 +330,7 @@ while(stay):
         print("--------------------------------------------------")
         print("              Listar todos los nodos")
         print("--------------------------------------------------")
-        # Aquí iria la funcion para listar todos los nodos
+        search_all(driver)
 
     elif op1 == "5":
         print("Saliendo del programa. ¡Hasta luego!")
