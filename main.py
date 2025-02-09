@@ -162,16 +162,116 @@ while(stay):
 
         if sub_op2 == "1":
             print("Rating (user - movie)")
-            # Aquí iria la funcion para crear la relación Rating
+            userName = input("\nIngresa el nombre del usuario: ")
+
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "User", userName, "Movie", movieName, "RATED", attributes)
+
         elif sub_op2 == "2":
             print("Directed (person - movie)")
-            # Aquí iria la funcion para crear la relación Directed
+            directorName = input("\nIngresa el nombre del director: ")
+
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "Person", userName, "Movie", movieName, "DIRECTED", attributes)
+
         elif sub_op2 == "3":
             print("Acted in (person - movie)")
-            # Aquí iria la funcion para crear la relación Acted in
+            actorName = input("\nIngresa el nombre del actor: ")
+
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "Person", userName, "Movie", movieName, "ACTED_IN", attributes)
+
         elif sub_op2 == "4":
             print("In genre (movie - genre)")
-            # Aquí iria la funcion para crear la relación In genre
+            movieName = input("\nIngresa el nombre de la película: ")
+
+            genreName = input("\nIngresa el nombre del género: ")
+
+            attributes = {}
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_relation(driver, "Movie", movieName, "Genre", genreName, "IN_GENRE", attributes)
+            
         else:
             print("Opción no válida.")
 
