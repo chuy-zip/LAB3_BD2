@@ -1,3 +1,14 @@
+def print_node_properties(node_type: str, properties: dict):
+
+    print(f"Propiedades del nodo tipo {node_type}: ")
+
+    for prop, value in properties.items():
+
+        print(f"- {prop}: {value}")
+    print()
+
+
+
 def search_user(driver, person_name:str):
     records, summary, keys = driver.execute_query(
         "MATCH (n:User) WHERE n.name = $q_name RETURN n",
@@ -6,7 +17,7 @@ def search_user(driver, person_name:str):
     )
 
     if not records:
-        print(f"No user found with the name '{person_name}'.")
+        print(f"No se encontro un usario con el nombre '{person_name}'.")
         return None
 
     users = []
@@ -14,9 +25,10 @@ def search_user(driver, person_name:str):
         user_node = record["n"]  
         users.append(user_node) 
 
-    print(f"Found {len(users)} user(s) with the name '{person_name}'.")
+    print(f"\nSe encontraron: {len(users)} nodo(s) 'User' con el nombre: '{person_name}'.")
+
     for user in users:
-        print(f"{user._properties}")
+        print_node_properties("User", user._properties)
     return users
 
 def search_person(driver, person_name:str):
@@ -27,7 +39,7 @@ def search_person(driver, person_name:str):
     )
 
     if not records:
-        print(f"No user found with the name '{person_name}'.")
+        print(f"No se encontro una persona con el nombre '{person_name}'.")
         return None
 
     users = []
@@ -35,9 +47,11 @@ def search_person(driver, person_name:str):
         user_node = record["n"]  
         users.append(user_node) 
 
-    print(f"Found {len(users)} person(people) with the name '{person_name}'.")
+    print(f"\nSe encontraron: {len(users)} nodo(s) 'Person' con el nombre: '{person_name}'.")
+
     for user in users:
-        print(f"{user._properties}")
+        print_node_properties("Person", user._properties)
+
     return users
 
 def search_genre(driver, genre_name: str):
@@ -48,17 +62,18 @@ def search_genre(driver, genre_name: str):
     )
 
     if not records:
-        print(f"No genre found with the name '{genre_name}'.")
+        print(f"No se encontro un genero con el nombre: '{genre_name}'.")
         return None
 
     genres = []
     for record in records:
         user_node = record["g"]  
         genres.append(user_node) 
+    
+    print(f"\nSe encontraron: {len(genres)} nodo(s) 'Genre' con el nombre: '{genre_name}'.")
 
-    print(f"Found {len(genres)} genre(s) with the name '{genre_name}'.")
     for genre in genres:
-        print(f"{genre._properties}")
+        print_node_properties("Genre", genres._properties)
     return genres
 
 def search_movie(driver, movie_title:str):
@@ -69,17 +84,19 @@ def search_movie(driver, movie_title:str):
     )
 
     if not records:
-        print(f"No movie found with the title '{movie_title}'.")
+        print(f"No se encontro una pelicula con el nombre:'{movie_title}'.")
         return None
 
     movies = []
     for record in records:
         user_node = record["n"]  
         movies.append(user_node) 
+    
+    print(f"\nSe encontraron: {len(movies)} nodo(s) 'Movie' con el nombre: '{movie_title}'.")
+    
+    for movie in movies:
+        print_node_properties("Movie", movie._properties)
 
-    print(f"Found {len(movies)} user(s) with the name '{movie_title}'.")
-    for user in movies:
-        print(f"{user._properties}")
     return movies
 
 def search_relation(driver, person_name: str) -> list:
@@ -100,7 +117,7 @@ def search_relation(driver, person_name: str) -> list:
     )
 
     if not records:
-        print(f"No user found with the name '{person_name}'.")
+        print(f"No se encontro una relacion con el nombre' {person_name}'.")
         return None
 
     relations = []
@@ -108,7 +125,7 @@ def search_relation(driver, person_name: str) -> list:
         relation_node = record["m"]  
         relations.append(relation_node) 
 
-    print(f"Found {len(relations)} relation(s) related to the name '{person_name}'.")
+    print(f"Se encontraron {len(relations)} relacion(es) relacionadas al nombre '{person_name}'.")
     for relation in relations:
         print(f"{relation}")
     return relations    
@@ -134,7 +151,7 @@ def search_person_movie(driver, person_name: str, movie_name: str) -> list:
     )
 
     if not records:
-        print(f"No relationships found between '{person_name}' and '{movie_name}'.")
+        print(f"No se encontraron relaciones entre '{person_name}' y '{movie_name}'.")
         return None
     
     relations = []
@@ -147,7 +164,7 @@ def search_person_movie(driver, person_name: str, movie_name: str) -> list:
         print(f"'{person_name}' {relation.type} '{movie_name}'")
     return relations
 
-def search_person_movie(driver, user_name: str, movie_name: str) -> list:
+def search_user_movie(driver, user_name: str, movie_name: str) -> list:
     """
     Function that searches the relations between a user and a movie. Both of them are given.
 
@@ -168,7 +185,7 @@ def search_person_movie(driver, user_name: str, movie_name: str) -> list:
     )
 
     if not records:
-        print(f"No relationships found between '{user_name}' and '{movie_name}'.")
+        print(f"No se encontraron relaciones entre '{user_name}' y '{movie_name}'.")
         return None
     
     relations = []
@@ -176,7 +193,7 @@ def search_person_movie(driver, user_name: str, movie_name: str) -> list:
         relation_node = record["r"]
         relations.append(relation_node)
 
-    print(f"Found {len(relations)} relation(s):")
+    print(f"Se encontraron {len(relations)} relacion(es):")
     for relation in relations:
         print(f"'{user_name}' {relation.type} '{movie_name}'")
     return relations
@@ -205,7 +222,7 @@ def search_all(driver) -> list:
     for record in records:
         nodes.append(record)
 
-    print(f"Found {len(nodes)} node(s):")
+    print(f"Se encontraron {len(nodes)} nodo(s):")
     for node in nodes:
-        print(f"{node}")
+        print_node_properties("Todos", node._properties)
     return nodes
