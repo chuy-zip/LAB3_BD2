@@ -3,8 +3,18 @@
 #       AUTORES:
 #           Eunice Mata......21231
 #           Ricardo Chuy.....221007
-#           Hector Penedo....22217
+#           Héctor Penedo....22217
 ###########################################
+
+from connection import get_neo_driver
+from search import search_user, search_movie, search_person
+from genre_creator import create_genre
+from movie_creator import create_movie
+from person_creator import create_person
+from user_creator import create_user
+from relation_creator import create_relation
+
+driver = get_neo_driver()
 
 def getInfo(property):
     return input(f"Porfavor ingrese la información {str(property)}: ")
@@ -40,16 +50,101 @@ while(stay):
 
         if sub_op1 == "1":
             print("Crear un nodo person")
-            # Aquí iria la funcion para crear un nodo person
+            keyLoop = True
+            labels = []
+            attributes = {}
+
+            while keyLoop:
+                label = input("\nIngresa la(s) etiqueta(s) del nodo. Escribe 'Salir' para terminar: ")
+                if label.lower() != "salir":
+                    labels.append(label)
+
+                else:
+                    keyLoop = False
+
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_person(driver, labels, attributes)
+            
         elif sub_op1 == "2":
             print("Crear un nodo user")
-            # Aquí iria la funcion para crear un nodo user
+            keyLoop = True
+            label = "User"
+            attributes = {}
+
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ")
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_user(driver, attributes)
+
         elif sub_op1 == "3":
             print("Crear un nodo movie")
-            # Aquí iria la funcion para crear un nodo movie
+            keyLoop = True
+            label = "User"
+            attributes = {}
+
+            keyLoop = True
+            while keyLoop:
+                dictionaryKey = input("\nIngresa el nombre del atributo. Escribe 'Salir' para terminar: ") # Utilizar 'name' en lugar de 'title'
+
+                if dictionaryKey.lower() != 'salir':
+                    dictionaryValue = input("\nIngresa el valor del atributo: ")
+                    try:
+                        attributes[dictionaryKey.lower()] = int(dictionaryValue)
+                    except ValueError:
+                        try:
+                            attributes[dictionaryKey.lower()] = float(dictionaryValue)
+                        except ValueError:
+                            attributes[dictionaryKey.lower()] = dictionaryValue
+
+                    print(attributes)
+
+                else:
+                    keyLoop = False
+
+            create_movie(driver, attributes)
+
         elif sub_op1 == "4":
             print("Crear un nodo genre")
-            # Aquí iria la funcion para crear un nodo genre
+            label = "Genre"
+
+            name = input("\nIngresa el nombre del género: ")
+
+            create_genre(driver, name)
+
         else:
             print("Opción no válida.")
 
