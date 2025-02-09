@@ -3,6 +3,8 @@ from search import search_user, search_movie
 from genre_creator import create_genre
 from movie_creator import create_movie
 from person_creator import create_person
+from user_creator import create_user
+from relation_creator import create_relation
 
 driver = get_neo_driver()
 
@@ -12,21 +14,21 @@ try:
     #para el ejercicio 2, dice que cada user debe tener minimo 2 relaciones de rate. 
     # Entonces voy a poner 3 nodos de pelicula
     create_movie(driver, {
-        "title": "The Matrix",
+        "name": "The Matrix",
         "movield": 133093,
         "year": 1999,
         "plot": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers."
     })
 
     create_movie(driver, {
-        "title": "Interstellar",
+        "name": "Interstellar",
         "movield": 816692,
         "year": 2014,
         "plot": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."
     })
 
     create_movie(driver, {
-        "title": "The Dark Knight",
+        "name": "The Dark Knight",
         "movield": 468569,
         "year": 2008,
         "plot": "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham."
@@ -64,7 +66,7 @@ try:
         "poster": "http://example.com/poster/michaelbrown.jpg"})
     
     create_movie(driver, {
-        "title": "Inception",
+        "name": "Inception",
         "imdbId": 1375666,
         "released": "2010-07-16",
         "imdbRating": 8.8,
@@ -81,6 +83,16 @@ try:
         "languages": ["English", "Japanese", "French"]})
     
     create_genre(driver, "Action")
+
+    create_user(driver, {"name": "Jorge", "userid": "1"})
+
+    create_user(driver, {"name": "Mario", "userid": "2"})
+    
+    create_user(driver, {"name": "Dan", "useris": "3"})
+
+    create_user(driver, {"name": "Ana", "userid": "4"})
+
+    create_relation(driver, "User", "Dan", "Movie", "The Matrix", "RATED", {"rating": 4, "timeStamp": 60})
 
 finally:
     driver.close()
