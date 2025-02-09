@@ -203,7 +203,7 @@ def search_all(driver) -> list:
 
     nodes = []
     for record in records:
-        nodes.append(record.keys)
+        nodes.append(record)
 
     print(f"Found {len(nodes)} node(s):")
     for node in nodes:
