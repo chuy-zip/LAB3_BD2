@@ -1,10 +1,10 @@
-###########################################
+######################################################
 #       LABORATORIO 3 - BASE DE DATOS 2
 #       AUTORES:
 #           Eunice Mata......21231
 #           Ricardo Chuy.....221007
 #           Hector Penedo....22217
-###########################################
+######################################################
 
 def getInfo(property):
     return input(f"Porfavor ingrese la información {str(property)}: ")
