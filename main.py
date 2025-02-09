@@ -7,7 +7,7 @@
 ###########################################
 
 from connection import get_neo_driver
-from search import search_user, search_movie, search_person
+from search import search_user, search_movie, search_person, search_person_movie, search_genre
 from genre_creator import create_genre
 from movie_creator import create_movie
 from person_creator import create_person
@@ -214,7 +214,7 @@ while(stay):
                 else:
                     keyLoop = False
 
-            create_relation(driver, "Person", userName, "Movie", movieName, "DIRECTED", attributes)
+            create_relation(driver, "Person", directorName, "Movie", movieName, "DIRECTED", attributes)
 
         elif sub_op2 == "3":
             print("Acted in (person - movie)")
@@ -242,7 +242,7 @@ while(stay):
                 else:
                     keyLoop = False
 
-            create_relation(driver, "Person", userName, "Movie", movieName, "ACTED_IN", attributes)
+            create_relation(driver, "Person", actorName, "Movie", movieName, "ACTED_IN", attributes)
 
         elif sub_op2 == "4":
             print("In genre (movie - genre)")
@@ -282,19 +282,38 @@ while(stay):
         print("        Seleccione la opción de búsqueda")
         print("--------------------------------------------------")
         print("   1. Encontrar un usuario")
-        print("   2. Encontrar una película")
-        print("   3. Encontrar usuarios con relaciones a película")
+        print("   2. Encontrar una persona")
+        print("   3. Encontrar una película")
+        print("   4. Encontrar un género")
+        print("   5. Encontrar usuarios con relaciones a película")
         sub_op3 = input("   -> ")
 
         if sub_op3 == "1":
             print("Encontrar un usuario")
-            # Aquí iria la funcion para buscar un usuario
+            userName = input("\nIngresa el nombre del usuario que deseas encontrar: ")
+            search_user(driver, userName)
+
         elif sub_op3 == "2":
-            print("Encontrar una película")
-            # Aquí iria la funcion para buscar una película
+            print("Encontrar una persona")
+            personName = input("\nIngresa el nombre de la persona que deseas encontrar: ")
+            search_person(driver, personName)
+
         elif sub_op3 == "3":
+            print("Encontrar una película")
+            movieName = input("\nIngresa el nombre de la película que deseas encontrar: ")
+            search_movie(driver, movieName)
+
+        elif sub_op3 == "4":
+            print("Encontrar un género")
+            genreName = input("\nIngresa el nombre del género que deseas encontrar: ")
+            search_genre(driver, genreName)
+
+        elif sub_op3 == "5":
             print("Encontrar usuarios con relaciones a película")
-            # Aquí iria la funcion para buscar peliculas relacionados a un usuarip
+            personName = input("\nIngresa el nombre de la persona que deseas encontrar: ")
+            movieName = input("\nIngresa el nombre de la película relacionada con la persona ingresada: ")
+            search_person_movie(driver, personName, movieName)
+
         else:
             print("Opción no válida.")
 
