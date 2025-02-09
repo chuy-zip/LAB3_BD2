@@ -15,13 +15,17 @@ def create_genre(driver, name: str) -> None:
     print(label)
     print(name)
 
-    records, summary, keys = driver.execute_query(
-        query,
-        genre_name=name,
-        database="neo4j"
-    )
+    try:
+        records, summary, keys = driver.execute_query(
+            query,
+            genre_name=name,
+            database="neo4j"
+        )
 
-    print(f"Created/updated node with label: {label} and properties: {name}")
+        print(f"Created/updated node with label: {label} and properties: {name}")
+
+    except:
+        print("ERROR")
 
 #driver = get_neo_driver()
 
