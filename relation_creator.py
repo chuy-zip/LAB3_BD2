@@ -9,18 +9,22 @@ def create_relation(driver, firstNodeType: str, firstNode: str, secondNodeType: 
         relation (str): The relation between two nodes.
         role (str): The first node's relation's attributes.
     """
-    if attributes:
-        combined_attrbutes = ", ".join([f"{key}: $q_attributes.{key}" for key in attributes.keys()])
+    try:
+        if attributes:
+            combined_attrbutes = ", ".join([f"{key}: $q_attributes.{key}" for key in attributes.keys()])
 
-        query = f"MATCH (a:{firstNodeType}), (b:{secondNodeType}) WHERE a.name = '{firstNode}' and b.name = '{secondNode}' MERGE (a)-[r:{relation} {{{combined_attrbutes}}}]->(b)"
+            query = f"MATCH (a:{firstNodeType}), (b:{secondNodeType}) WHERE a.name = '{firstNode}' and b.name = '{secondNode}' MERGE (a)-[r:{relation} {{{combined_attrbutes}}}]->(b)"
+            
+        else:
+            query = f"MATCH (a:{firstNodeType}), (b:{secondNodeType}) WHERE a.name = '{firstNode}' and b.name = '{secondNode}' MERGE (a)-[r:{relation}]->(b)"
         
-    else:
-        query = f"MATCH (a:{firstNodeType}), (b:{secondNodeType}) WHERE a.name = '{firstNode}' and b.name = '{secondNode}' MERGE (a)-[r:{relation}]->(b)"
-    
-    records, summary, keys = driver.execute_query(
-        query,
-        q_attributes=attributes,
-        database_="neo4j"
-    )
+        records, summary, keys = driver.execute_query(
+            query,
+            q_attributes=attributes,
+            database_="neo4j"
+        )
 
-    print(f"Created/updated relation with label {relation} between {firstNode} and {secondNode}")
+        print(f"Created/updated relation with label {relation} between {firstNode} and {secondNode}")
+
+    except:
+        print("ERROR")
