@@ -88,7 +88,7 @@ try:
 
     create_user(driver, {"name": "Mario", "userid": "2"})
     
-    create_user(driver, {"name": "Dan", "useris": "3"})
+    create_user(driver, {"name": "Dan", "userid": "3"})
 
     create_user(driver, {"name": "Ana", "userid": "4"})
 
