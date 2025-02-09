@@ -115,7 +115,7 @@ def search_relation(driver, person_name: str) -> list:
 
 def search_person_movie(driver, person_name: str, movie_name: str) -> list:
     """
-    Function that searches the relations between a person and a movie. Both of them are given by the user.
+    Function that searches the relations between a person and a movie. Both of them are given.
 
     Args:
         driver (driver): driver
@@ -146,3 +146,66 @@ def search_person_movie(driver, person_name: str, movie_name: str) -> list:
     for relation in relations:
         print(f"'{person_name}' {relation.type} '{movie_name}'")
     return relations
+
+def search_person_movie(driver, user_name: str, movie_name: str) -> list:
+    """
+    Function that searches the relations between a user and a movie. Both of them are given.
+
+    Args:
+        driver (driver): driver
+        user_name (string): The person's name
+        movie_title (string): The movie's title 
+
+    Returns:
+        (list): A list containing the whole relations.
+    """
+
+    records, summary, keys = driver.execute_query(
+        f"MATCH (u:User)-[r]->(b:Movie) WHERE u.name = '{user_name}' AND b.name = '{movie_name}' RETURN r",
+        q_name = user_name,
+        q_title = movie_name,
+        database = "neo4j"
+    )
+
+    if not records:
+        print(f"No relationships found between '{user_name}' and '{movie_name}'.")
+        return None
+    
+    relations = []
+    for record in records:
+        relation_node = record["r"]
+        relations.append(relation_node)
+
+    print(f"Found {len(relations)} relation(s):")
+    for relation in relations:
+        print(f"'{user_name}' {relation.type} '{movie_name}'")
+    return relations
+
+def search_all(driver) -> list:
+    """
+    Function that searches and returns all nodes.
+
+    Args:
+        driver (driver): driver
+
+    Returns:
+        (list): A list containing all nodes.
+    """
+
+    records = driver.execute_query(
+        f"MATCH (p:Person), (u:User), (m:Movie) RETURN ",
+        database = "neo4j"
+    )
+
+    if not records:
+        print(f"No nodes found.")
+        return None
+
+    nodes = []
+    for record in records:
+        nodes.append(record.keys)
+
+    print(f"Found {len(nodes)} node(s):")
+    for node in nodes:
+        print(f"{node}")
+    return nodes

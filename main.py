@@ -7,7 +7,7 @@
 ###########################################
 
 from connection import get_neo_driver
-from search import search_user, search_movie, search_person, search_person_movie, search_genre
+from search import search_user, search_movie, search_person, search_person_movie, search_genre, search_all, search_relation
 from genre_creator import create_genre
 from movie_creator import create_movie
 from person_creator import create_person
@@ -285,7 +285,8 @@ while(stay):
         print("   2. Encontrar una persona")
         print("   3. Encontrar una película")
         print("   4. Encontrar un género")
-        print("   5. Encontrar usuarios con relaciones a película")
+        print("   5. Encontrar personas con relaciones a película")
+        print("   6. Encontrar usuarios con relaciones a película")
         sub_op3 = input("   -> ")
 
         if sub_op3 == "1":
@@ -309,10 +310,16 @@ while(stay):
             search_genre(driver, genreName)
 
         elif sub_op3 == "5":
-            print("Encontrar usuarios con relaciones a película")
+            print("Encontrar personas con relaciones a película")
             personName = input("\nIngresa el nombre de la persona que deseas encontrar: ")
             movieName = input("\nIngresa el nombre de la película relacionada con la persona ingresada: ")
             search_person_movie(driver, personName, movieName)
+
+        elif sub_op3 == "6":
+            print("Encontrar usuarios con relaciones a película")
+            userName = input("\nIngresa el nombre del usuario que deseas encontrar: ")
+            movieName = input("\nIngresa el nombre de la película relacionada con el usuario ingresado: ")
+            search_person_movie(driver, userName, movieName)
 
         else:
             print("Opción no válida.")
@@ -323,7 +330,7 @@ while(stay):
         print("--------------------------------------------------")
         print("              Listar todos los nodos")
         print("--------------------------------------------------")
-        # Aquí iria la funcion para listar todos los nodos
+        search_all(driver)
 
     elif op1 == "5":
         print("Saliendo del programa. ¡Hasta luego!")
