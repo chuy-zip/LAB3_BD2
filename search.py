@@ -193,7 +193,7 @@ def search_all(driver) -> list:
     """
 
     records = driver.execute_query(
-        f"MATCH (p:Person), (u:User), (m:Movie) RETURN ",
+        f"MATCH (n) RETURN n",
         database = "neo4j"
     )
 
