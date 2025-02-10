@@ -4,7 +4,6 @@ from genre_creator import create_genre
 from movie_creator import create_movie
 from person_creator import create_person
 from user_creator import create_user
-from relation_creator import create_relation
 from relationship_creator import create_relationship
 
 import datetime
@@ -147,22 +146,19 @@ def graph_exersice_4():
 
         #relaciones
         #movie-genre
-        create_relation(driver,"Movie","Braveheart","Genre","Action","IN_GENRE",{})
-        create_relation(driver,"Movie","Inception","Genre","Action","IN_GENRE",{})
+        create_relationship(driver,"IN_GENRE", {},{"labels": "Movie", "attributes": {"title": "Braveheart"}}, {"labels": "Genre", "attributes": {"name": "Action"}})
+        create_relationship(driver,"IN_GENRE", {},{"labels": "Movie", "attributes": {"title": "Inception"}}, {"labels": "Genre", "attributes": {"name": "Action"}})
 
         #actor director - movie
-        create_relation(driver,"Director","Mel Gibson","Movie","Braveheart","ACTED_IN",{"role":"William Wallace"})
-        create_relation(driver,"Director","Mel Gibson","Movie","Braveheart","DIRECTED",{"role":"Director"})
+        create_relationship(driver,"ACTED_IN", {"role":"William Wallace"},{"labels": "Actor", "attributes": {"name": "Mel Gibson"}}, {"labels": "Movie", "attributes": {"title": "Braveheart"}})
+        create_relationship(driver,"DIRECTED", {"role":"Director"}, {"labels": "Director", "attributes": {"name": "Mel Gibson"}}, {"labels": "Movie", "attributes": {"title": "Braveheart"}})
         
         #actor - movie
-        create_relation(driver,"Actor","Leonardo DiCaprio","Movie","Inception","ACTED_IN",{"role":"Dom Cobb"})
+        create_relationship(driver,"ACTED_IN", {"role":"Dom Cobb"},{"labels": "Actor", "attributes": {"name": "Leonardo DiCaprio"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
 
         #director - movie
-        create_relation(driver,"Director","Christopher Nolan","Movie","Inception","DIRECTED",{"role":"Director"})
-
+        create_relationship(driver,"DIRECTED", {"role":"Director"}, {"labels": "Director", "attributes": {"name": "Christopher Nolan"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
 
     finally:
         driver.close()
 
-
-graph_exercise_2()
