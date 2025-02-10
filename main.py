@@ -8,11 +8,6 @@
 
 from connection import get_neo_driver
 from search import search_user, search_movie, search_person, search_person_movie, search_genre, search_all, search_relation
-from genre_creator import create_genre
-from movie_creator import create_movie
-from person_creator import create_person
-from user_creator import create_user
-from relation_creator import create_relation
 
 driver = get_neo_driver()
 
