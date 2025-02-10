@@ -8,6 +8,7 @@
 
 from connection import get_neo_driver
 from search import search_user, search_movie, search_person, search_person_movie, search_genre, search_all, search_relation
+from neo import graph_exercise_2, graph_exersice_4
 
 driver = get_neo_driver()
 
@@ -32,11 +33,13 @@ while(stay):
         print("\n\n--------------------------------------------------")
         print("             CREANDO GRAFO DEL EJ 2")
         print("--------------------------------------------------")
+        graph_exercise_2()
 
     elif op1 == "2":
         print("\n\n--------------------------------------------------")
         print("            CREANDO GRAFO DEL EJ 4")
         print("--------------------------------------------------")
+        graph_exersice_4()
 
     elif op1 == "3":
         print("\n\n--------------------------------------------------")
