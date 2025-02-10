@@ -10,6 +10,7 @@ import datetime
 
 driver = get_neo_driver()
 
+
 def graph_exercise_2():
     try:
         #para el ejercicio 2, dice que cada user debe tener minimo 2 relaciones de rate. 
@@ -123,41 +124,26 @@ def graph_exersice_4():
             "languages": ["English", "Japanese", "French"]
         })
         
-        create_movie(driver, {
-            "title": "Braveheart",
-            "tmdbId": 197,
-            "released": "1995-05-24",
-            "imdbRating": 8.4,
-            "movield": 113277,
-            "year": 1995,
-            "imdbId": "tt0112573",
-            "runtime": 178,
-            "countries": ["USA"],
-            "imdbVotes": 1073200,
-            "url": "https://www.imdb.com/title/tt0112573/",
-            "revenue": 213216216,
-            "plot": "Scottish warrior William Wallace leads his countrymen in a rebellion to free his homeland from the tyranny of King Edward I of England.",
-            "poster": "https://image.tmdb.org/t/p/w500/or1gBugydmjToAEq7OZY0owwFk.jpg",
-            "budget": 72000000,
-            "languages": ["English", "French", "Latin"]
-        })
-
         create_genre(driver, "Action")
+
+        create_user(driver, {"name": "Eunice", "userid": "6"})
 
         #relaciones
         #movie-genre
-        create_relationship(driver,"IN_GENRE", {},{"labels": "Movie", "attributes": {"title": "Braveheart"}}, {"labels": "Genre", "attributes": {"name": "Action"}})
         create_relationship(driver,"IN_GENRE", {},{"labels": "Movie", "attributes": {"title": "Inception"}}, {"labels": "Genre", "attributes": {"name": "Action"}})
 
         #actor director - movie
-        create_relationship(driver,"ACTED_IN", {"role":"William Wallace"},{"labels": "Actor", "attributes": {"name": "Mel Gibson"}}, {"labels": "Movie", "attributes": {"title": "Braveheart"}})
-        create_relationship(driver,"DIRECTED", {"role":"Director"}, {"labels": "Director", "attributes": {"name": "Mel Gibson"}}, {"labels": "Movie", "attributes": {"title": "Braveheart"}})
+        create_relationship(driver,"ACTED_IN", {"role":"William Wallace"},{"labels": "Actor", "attributes": {"name": "Mel Gibson"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
+        create_relationship(driver,"DIRECTED", {"role":"Director"}, {"labels": "Director", "attributes": {"name": "Mel Gibson"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
         
         #actor - movie
         create_relationship(driver,"ACTED_IN", {"role":"Dom Cobb"},{"labels": "Actor", "attributes": {"name": "Leonardo DiCaprio"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
 
         #director - movie
         create_relationship(driver,"DIRECTED", {"role":"Director"}, {"labels": "Director", "attributes": {"name": "Christopher Nolan"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
+
+        #user - movie
+        create_relationship(driver,"RATED", {"rating":5,"timeStamp":datetime.datetime.now()},{"labels": "User", "attributes": {"name": "Eunice"}}, {"labels": "Movie", "attributes": {"title": "Inception"}})
 
     finally:
         driver.close()
