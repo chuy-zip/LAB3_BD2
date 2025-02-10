@@ -3,11 +3,11 @@
 #       AUTORES:
 #           Eunice Mata......21231
 #           Ricardo Chuy.....221007
-#           Hector Penedo....22217
+#           Héctor Penedo....22217
 ######################################################
 
 from connection import get_neo_driver
-from search import search_user, search_movie, search_person, search_person_movie, search_genre, search_all, search_relation
+from search import search_user, search_movie, search_person, search_person_movie, search_genre, search_all, search_relation, search_user_movie
 from neo import graph_exercise_2, graph_exersice_4
 
 driver = get_neo_driver()
@@ -87,7 +87,7 @@ while(stay):
             print("Encontrar usuarios con relaciones a película")
             userName = input("\nIngresa el nombre del usuario que deseas encontrar: ")
             movieName = input("\nIngresa el nombre de la película relacionada con el usuario ingresado: ")
-            search_person_movie(driver, userName, movieName)
+            search_user_movie(driver, userName, movieName)
 
         else:
             print("Opción no válida.")

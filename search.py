@@ -1,3 +1,5 @@
+from connection import get_neo_driver
+
 def print_node_properties(node_type: str, properties: dict):
 
     print(f"Propiedades del nodo tipo {node_type}: ")
@@ -78,7 +80,7 @@ def search_genre(driver, genre_name: str):
 
 def search_movie(driver, movie_title:str):
     records, summary, keys = driver.execute_query(
-        "MATCH (n:Movie) WHERE n.name = $q_title RETURN n",
+        "MATCH (n:Movie) WHERE n.title = $q_title RETURN n",
         q_title=movie_title,
         database_="neo4j"
     )
@@ -128,7 +130,7 @@ def search_relation(driver, person_name: str) -> list:
     print(f"\nSe encontraron {len(relations)} relacion(es) relacionadas al nombre '{person_name}'.")
     for relation in relations:
         print(f"{relation}")
-    return relations    
+    return relations
 
 def search_person_movie(driver, person_name: str, movie_name: str) -> list:
     """
@@ -144,7 +146,7 @@ def search_person_movie(driver, person_name: str, movie_name: str) -> list:
     """
 
     records, summary, keys = driver.execute_query(
-        f"MATCH (u:Person)-[r]->(b:Movie) WHERE u.name = '{person_name}' AND b.name = '{movie_name}' RETURN r",
+        f"MATCH (u:Person)-[r]->(b:Movie) WHERE u.name = '{person_name}' AND b.title = '{movie_name}' RETURN r",
         q_name = person_name,
         q_title = movie_name,
         database = "neo4j"
@@ -159,9 +161,9 @@ def search_person_movie(driver, person_name: str, movie_name: str) -> list:
         relation_node = record["r"]
         relations.append(relation_node)
 
-    print(f"\nFound {len(relations)} relation(s):")
+    print(f"\nEncontramos {len(relations)} relacione(s):")
     for relation in relations:
-        print(f"'{person_name}' {relation.type} '{movie_name}'")
+        print(f"'{person_name}' - {relation.type} -> '{movie_name}'")
     return relations
 
 def search_user_movie(driver, user_name: str, movie_name: str) -> list:
@@ -178,7 +180,7 @@ def search_user_movie(driver, user_name: str, movie_name: str) -> list:
     """
 
     records, summary, keys = driver.execute_query(
-        f"MATCH (u:User)-[r]->(b:Movie) WHERE u.name = '{user_name}' AND b.name = '{movie_name}' RETURN r",
+        f"MATCH (u:User)-[r]->(b:Movie) WHERE u.name = '{user_name}' AND b.title = '{movie_name}' RETURN r",
         q_name = user_name,
         q_title = movie_name,
         database = "neo4j"
@@ -193,9 +195,9 @@ def search_user_movie(driver, user_name: str, movie_name: str) -> list:
         relation_node = record["r"]
         relations.append(relation_node)
 
-    print(f"\nSe encontraron {len(relations)} relacion(es):")
+    print(f"\nEncontramos {len(relations)} relacion(es):")
     for relation in relations:
-        print(f"'{user_name}' {relation.type} '{movie_name}'")
+        print(f"'{user_name}' - {relation.type} -> '{movie_name}'")
     return relations
 
 def search_all(driver) -> list:
