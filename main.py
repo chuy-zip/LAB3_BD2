@@ -34,12 +34,14 @@ while(stay):
         print("             CREANDO GRAFO DEL EJ 2")
         print("--------------------------------------------------")
         graph_exercise_2()
+        print("   DONE! ")
 
     elif op1 == "2":
         print("\n\n--------------------------------------------------")
         print("            CREANDO GRAFO DEL EJ 4")
         print("--------------------------------------------------")
         graph_exersice_4()
+        print("   DONE! ")
 
     elif op1 == "3":
         print("\n\n--------------------------------------------------")
